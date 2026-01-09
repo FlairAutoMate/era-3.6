@@ -113,7 +113,7 @@ export default function App() {
         case 'portfolio': return <PortfolioOverview onNavigate={handleNavigate} />;
 
         // Pro specific views
-        case 'pro-jobs': return <ProJobsPage />;
+        case 'pro-jobs': return <ProJobsPage onNavigate={handleNavigate} />;
         case 'pro-new-job': return <ProNewJobPage onNavigate={handleNavigate} />;
         case 'pro-quotes': return <ProQuotesPage />;
         case 'pro-revenue': return <ProRevenuePage />;

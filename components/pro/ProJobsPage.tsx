@@ -7,7 +7,7 @@ import { TG_COLORS } from '../../constants';
 
 type JobFilter = 'new' | 'active' | 'waiting';
 
-export const ProJobsPage: React.FC = () => {
+export const ProJobsPage: React.FC<{ onNavigate: (v: string, jobId?: string) => void }> = ({ onNavigate }) => {
     const { jobs } = useAppStore();
     const [filter, setFilter] = useState<JobFilter>('new');
 
@@ -33,25 +33,34 @@ export const ProJobsPage: React.FC = () => {
 
             <div className="space-y-4">
                 {filteredJobs.map(job => (
-                    <AuraCard key={job.id} className="p-8 bg-[#0A0A0B] border-white/5 hover:border-white/10 transition-all flex items-center justify-between group">
-                        <div className="flex items-center gap-8">
-                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-xs ${TG_COLORS[job.tg_score as keyof typeof TG_COLORS] || 'bg-zinc-800'}`}>
-                                TG {job.tg_score ?? '?'}
-                            </div>
-                            <div>
-                                <h4 className="text-xl font-bold text-white tracking-tight leading-none mb-1.5 group-hover:text-indigo-400 transition-colors">{job.adresse.split(',')[0]}</h4>
-                                <div className="flex items-center gap-4">
-                                    <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">{job.tittel}</span>
-                                    <div className="w-1 h-1 rounded-full bg-zinc-800" />
-                                    <span className="text-[10px] font-mono font-bold text-indigo-400">{(job.estimert_kost / 1000).toFixed(0)}k NOK</span>
+                    <button
+                        key={job.id}
+                        onClick={() => {
+                            if (job.status === 'sent') onNavigate('pro-quote-edit', job.id);
+                            else onNavigate('pro-project-detail', job.id);
+                        }}
+                        className="w-full text-left"
+                    >
+                        <AuraCard className="p-8 bg-[#0A0A0B] border-white/5 hover:border-white/10 transition-all flex items-center justify-between group hover:bg-[#0D0D0E]">
+                            <div className="flex items-center gap-8">
+                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-xs ${TG_COLORS[job.tg_score as keyof typeof TG_COLORS] || 'bg-zinc-800'}`}>
+                                    TG {job.tg_score ?? '?'}
+                                </div>
+                                <div>
+                                    <h4 className="text-xl font-bold text-white tracking-tight leading-none mb-1.5 group-hover:text-indigo-400 transition-colors">{job.adresse.split(',')[0]}</h4>
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">{job.tittel}</span>
+                                        <div className="w-1 h-1 rounded-full bg-zinc-800" />
+                                        <span className="text-[10px] font-mono font-bold text-indigo-400">{(job.estimert_kost / 1000).toFixed(0)}k NOK</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex items-center gap-8">
-                            <span className="text-[10px] font-black text-zinc-700 uppercase tracking-widest">{job.status === 'sent' ? 'NY' : 'OPERATIV'}</span>
-                            <Icons.ChevronRight className="text-zinc-800 group-hover:text-white transition-all" size={20} />
-                        </div>
-                    </AuraCard>
+                            <div className="flex items-center gap-8">
+                                <span className="text-[10px] font-black text-zinc-700 uppercase tracking-widest">{job.status === 'sent' ? 'NY' : 'OPERATIV'}</span>
+                                <Icons.ChevronRight className="text-zinc-800 group-hover:text-white transition-all" size={20} />
+                            </div>
+                        </AuraCard>
+                    </button>
                 ))}
             </div>
         </div>
