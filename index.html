@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ERA OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Plus Jakarta Sans', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+              brand: ['Unbounded', 'cursive'],
+            },
+            letterSpacing: {
+              'ios-tight': '-0.01em',
+              'ios-tighter': '-0.04em',
+              'system': '0.1em',
+            },
+            colors: {
+              era: {
+                bg: '#000000',
+                surface: '#0A0A0B',
+                glass: 'rgba(255, 255, 255, 0.04)',
+                border: 'rgba(255, 255, 255, 0.08)',
+                critical: '#FF3B30',
+                ok: '#34C759',
+                ai: '#5856D6'
+              }
+            },
+            animation: {
+              'era-in': 'era-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'era-slide-up': 'era-slide-up 0.6s cubic-bezier(0.2, 0, 0, 1) forwards',
+              'pulse-soft': 'pulse-soft 4s ease-in-out infinite',
+              'marquee': 'marquee 80s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'shimmer': 'shimmer 3s infinite linear',
+              'era-axis-pulse': 'era-axis-pulse 1.5s ease-in-out infinite',
+            },
+            keyframes: {
+              'era-in': {
+                '0%': { opacity: '0', transform: 'translateY(20px) scale(0.99)' },
+                '100%': { opacity: '1', transform: 'translateY(0) scale(1)' }
+              },
+              'era-slide-up': {
+                '0%': { opacity: '0', transform: 'translateY(15px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' }
+              },
+              'pulse-soft': {
+                '0%, 100%': { opacity: '1' },
+                '50%': { opacity: '0.6' }
+              },
+              'marquee': {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-50%)' }
+              },
+              'float': {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' }
+              },
+              'shimmer': {
+                '0%': { backgroundPosition: '-200% 0' },
+                '100%': { backgroundPosition: '200% 0' }
+              },
+              'era-axis-pulse': {
+                '0%, 100%': { opacity: '0.9' },
+                '50%': { opacity: '1' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* FORCE HIDE SYSTEM CURSOR */
+      * {
+        cursor: none !important;
+      }
+
+      body {
+        background: #000000;
+        color: #F2F2F7;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      .liquid-glass {
+        background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      ::-webkit-scrollbar { display: none; }
+
+      .mask-marquee {
+        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      }
+
+      /* THE SUPREME CURSOR - CRITICAL FIX: top:0, left:0 */
+      .custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 2147483647;
+        will-change: transform;
+        backface-visibility: hidden;
+      }
+
+      .custom-cursor-follower {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(255,255,255,0.4);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 2147483646;
+        will-change: transform;
+        backface-visibility: hidden;
+        transition: transform 0.15s ease-out;
+      }
+
+      .cursor-hover .custom-cursor {
+        background: #6366f1;
+        transform: translate3d(-50%, -50%, 0) scale(1.5);
+      }
+
+      .cursor-hover .custom-cursor-follower {
+        border-color: rgba(99, 102, 241, 0.6);
+        background: rgba(99, 102, 241, 0.1);
+        transform: translate3d(-50%, -50%, 0) scale(1.8);
+      }
+
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.90.1",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "jspdf": "https://esm.sh/jspdf@^4.0.0",
+    "lottie-react": "https://esm.sh/lottie-react@^2.4.1",
+    "zustand/": "https://esm.sh/zustand@^5.0.9/",
+    "zustand": "https://esm.sh/zustand@^5.0.9"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
