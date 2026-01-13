@@ -1,0 +1,9 @@
+{
+  "name": "ERA OS",
+  "description": "Autonomt AI-operativsystem for eiendomsvedlikehold og verdiøkning.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
